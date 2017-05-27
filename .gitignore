@@ -22,6 +22,7 @@ wp-content/plugins/hello.php
 
 ## OTHER
 node_modules
+dist
 .sass-cache
 *.phpproj
 *.sln
