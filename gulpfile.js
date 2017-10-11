@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 	runSequence = require('run-sequence');
 
 // SASS
-gulp.task('sass', function() {
+gulp.task('sass', () => {
   	return gulp.src('lib/scss/style.scss') 
   		.pipe(sourcemaps.init())
 		    .pipe(sass())
@@ -27,7 +27,7 @@ gulp.task('sass', function() {
 })
 
 // Scripts
-gulp.task('scripts', function() {
+gulp.task('scripts', () => {
 	return gulp.src([
 			'./lib/js/vendor/jquery-3.2.1.min.js', 
 			'./lib/js/custom/*.js'
@@ -42,7 +42,7 @@ gulp.task('scripts', function() {
 })
 
 // Minify Images
-gulp.task('images', function() {
+gulp.task('images', () => {
 	return gulp.src('lib/images/**/*.+(png|jpg|gif|svg)')
 		// Caching images that ran through imagemin
 		.pipe(cache(imagemin({
@@ -52,12 +52,12 @@ gulp.task('images', function() {
 });
 
 // Delete dist folder
-gulp.task('clean:dist', function() {
+gulp.task('clean:dist', () => {
 	return del.sync('dist');
 });
 
 // BrowserSync
-gulp.task('browserSync', function() {
+gulp.task('browserSync', () => {
 	browserSync.init({
 		proxy: 'http://localhost:8888/'
 	})
@@ -71,9 +71,14 @@ gulp.task('build', function(callback) {
 	)
 });
 
-// Watch TODO: app.js is looping, need to watch for js changes but not watch the file that ultimately gets created
+// Watch 
 gulp.task('watch', ['browserSync', 'sass', 'scripts'], function(){
 	gulp.watch('lib/scss/**/*.scss', ['sass']).on('change', browserSync.reload);
 	gulp.watch('template-parts/**/*.php', browserSync.reload);
-	gulp.watch('lib/js/**/*.js', ['scripts']).on('change', browserSync.reload);
-})
+	gulp.watch(['lib/js/custom/*.js','lib/js/vendor/*.js'], ['scripts']).on('change', browserSync.reload);
+});
+
+// Default gulp action when gulp is run
+gulp.task('default', [
+   'watch'
+]);

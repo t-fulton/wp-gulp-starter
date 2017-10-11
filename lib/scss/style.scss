@@ -1,2 +1,5 @@
 @import 'vendor/underscores';
-@import 'vendor/another';
+
+@import 'toolbox/mixins';
+@import 'toolbox/variables';
+@import 'toolbox/grid';
